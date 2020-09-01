@@ -15,6 +15,17 @@ module XlsxTemplater
       document
     end
 
+    def self.scan_params template_path
+      document = Zip::File.open(template_path)
+                   .select { |entry| entry.name == SHARED_STRINGS_XML }
+                   .first
+                   .get_input_stream
+                   .read
+      document.force_encoding(Encoding::UTF_8) if document.respond_to?(:force_encoding)
+      document.scan(/\$([A-Z]+_\d+)\$/).flatten
+    end
+
+    private
     def safe(text)
       if escape_html
         text.to_s.gsub('&', '&amp;').gsub('>', '&gt;').gsub('<', '&lt;')
