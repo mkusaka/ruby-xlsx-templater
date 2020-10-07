@@ -1,5 +1,7 @@
 require 'zip'
 
+SHARED_STRINGS_XML = "xl/sharedStrings.xml"
+
 module XlsxTemplater
   class XlsxCreator
     attr_reader :template_path, :template_processor
@@ -27,7 +29,7 @@ module XlsxTemplater
 
     private
     def copy_or_template(entry_name, entry_bytes)
-      if entry_name == "xl/sharedStrings.xml"
+      if entry_name == SHARED_STRINGS_XML
         template_processor.render(entry_bytes)
       else
         entry_bytes
