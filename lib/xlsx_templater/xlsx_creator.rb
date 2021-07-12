@@ -22,7 +22,7 @@ module XlsxTemplater
         Zip::File.open(template_path).each do |entry|
           entry_name = entry.name
           out.put_next_entry(entry_name)
-          out.write(copy_or_template(entry_name, entry.get_input_stream.read))
+          out.write(copy_or_template(entry_name, entry.get_input_stream.read.force_encoding(Encoding::UTF_8)))
         end
       end
     end
